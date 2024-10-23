@@ -14,7 +14,7 @@ export async function createPost(formData) {
   const response = await fetch(`${baseUrl}`, {
     method: "POST",
     headers,
-    body: JSON.stringify(pet),
+    body: JSON.stringify(post),
   });
 
   const newPost = await response.json();
@@ -24,7 +24,7 @@ export async function createPost(formData) {
 }
 
 export async function deletePost(id) {
-  const response = await fetch(`${baseUrl}/${id}`, {
+  await fetch(`${baseUrl}/${id}`, {
     method: "DELETE",
   });
 
@@ -40,12 +40,12 @@ export async function fetchPosts() {
 }
 
 export async function fetchPost(id) {
+  const data = await fetch(`${baseUrl}/${id}`);
+  let post;
   try {
-    const data = await fetch(`${baseUrl}/${id}`);
-    const posts = await data.json();
-    return posts;
-  } catch {
-    return undefined;
+    const post = await data.json();
+  } catch (error) {
     redirect("/posts");
   }
+  return post;
 }
